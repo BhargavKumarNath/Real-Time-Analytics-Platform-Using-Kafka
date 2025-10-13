@@ -1,0 +1,11 @@
+stocks:
+  - AAPL
+  - GOOGL
+  - MSFT
+  - AMZN
+  - TSLA
+
+kafka:
+  bootstrap_servers: 'kafka:9092'
+  schema_registry_url: 'http://schema-registry:8081'
+  topic_name: 'stock_prices'

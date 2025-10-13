@@ -1,0 +1,12 @@
+{
+    "namespace": "com.fang.project",
+    "type": "record",
+    "name": "StockPriceKey",
+    "fields": [
+        {
+            "name": "symbol",
+            "type": "string"
+        }
+    ]
+}
+
