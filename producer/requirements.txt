@@ -1,3 +1,4 @@
 yfinance==0.2.37
 confluent-kafka[avro]==2.3.0
 pyyaml==6.0.1
+requests

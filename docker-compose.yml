@@ -96,6 +96,20 @@ services:
 
     networks:
       - broker-network
+    
+  producer:
+    build:
+      context: .
+      dockerfile: producer/Dockerfile
+    container_name: producer
+    depends_on:
+      - kafka
+      - schema-registry
+    networks:
+      - broker-network
+    volumes:
+      # - ./producer/src:/app/producer/src
+      - ./config:/app/config
 
 volumes:
   pgdata:
