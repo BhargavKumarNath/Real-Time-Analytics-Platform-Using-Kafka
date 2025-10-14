@@ -4,6 +4,8 @@ stocks:
   - MSFT
   - AMZN
   - TSLA
+alpha_vantage:
+  api_key: 'FLLR1T8T4ITKKGIP'
 
 kafka:
   bootstrap_servers: 'kafka:9092'

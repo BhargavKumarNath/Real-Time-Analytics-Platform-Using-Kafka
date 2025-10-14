@@ -21,6 +21,11 @@ services:
       - "29092:29092"
     depends_on:
       - zookeeper
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
@@ -103,12 +108,14 @@ services:
       dockerfile: producer/Dockerfile
     container_name: producer
     depends_on:
-      - kafka
-      - schema-registry
+      kafka:
+        condition: service_healthy # <-- This is the key change
+      schema-registry:
+        condition: service_started
     networks:
       - broker-network
     volumes:
-      # - ./producer/src:/app/producer/src
+      - ./producer/src:/app/producer/src
       - ./config:/app/config
 
 volumes:
