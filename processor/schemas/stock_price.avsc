@@ -1,0 +1,23 @@
+{
+    "namespace": "com.fang.project",
+    "type": "record",
+    "name": "StockPrice",
+    "fields": [
+        {
+            "name": "timestamp",
+            "type": {"type": "long", "logicalType": "timestamp-millis"}
+        },
+        {
+            "name": "symbol",
+            "type": "string"
+        },
+        {
+            "name": "price",
+            "type": "double"
+        },
+        {
+            "name": "volume",
+            "type": "long"
+        }
+    ]
+}

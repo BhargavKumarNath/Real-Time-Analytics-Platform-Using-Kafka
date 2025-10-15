@@ -39,7 +39,22 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
       - broker-network
-    
+
+  kafka-topic-creator:
+    image: confluentinc/cp-kafka:7.5.3
+    container_name: kafka-topic-creator
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - broker-network
+    command: >
+      bash -c "
+        echo 'Waiting for Kafka to be ready...' &&
+        cub kafka-ready -b kafka:9092 1 20 &&
+        echo 'Kafka is ready!' &&
+        kafka-topics --create --topic stock_prices --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
+      "
   schema-registry:
     image: confluentinc/cp-schema-registry:7.5.3
     container_name: schema-registry
@@ -117,6 +132,19 @@ services:
     volumes:
       - ./producer/src:/app/producer/src
       - ./config:/app/config
+  
+  processor:
+    build: 
+      context: .
+      dockerfile: processor/Dockerfile
+    container_name: processor
+    depends_on:
+      - kafka
+      - schema-registry
+    networks:
+      - broker-network
+    volumes:
+      - ./processor/src:/app/src
 
 volumes:
   pgdata:
